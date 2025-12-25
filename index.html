@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <title>Feliz Navidad</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0f3d2c 0%, #1a5c42 50%, #0a2818 100%);
+            font-family: 'Mountains of Christmas', cursive;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Nieve cayendo */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            font-size: 1.5em;
+            opacity: 0.9;
+            animation: fall linear infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        /* Luces navideñas */
+        .lights {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 30px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1;
+        }
+
+        .light {
+            width: 12px;
+            height: 18px;
+            border-radius: 50%;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        .light:nth-child(1) { background: #ff0000; animation-delay: 0s; }
+        .light:nth-child(2) { background: #00ff00; animation-delay: 0.3s; }
+        .light:nth-child(3) { background: #ffff00; animation-delay: 0.6s; }
+        .light:nth-child(4) { background: #0000ff; animation-delay: 0.9s; }
+        .light:nth-child(5) { background: #ff00ff; animation-delay: 1.2s; }
+        .light:nth-child(6) { background: #ff0000; animation-delay: 0.2s; }
+        .light:nth-child(7) { background: #00ff00; animation-delay: 0.5s; }
+        .light:nth-child(8) { background: #ffff00; animation-delay: 0.8s; }
+        .light:nth-child(9) { background: #0000ff; animation-delay: 1.1s; }
+        .light:nth-child(10) { background: #ff00ff; animation-delay: 0.4s; }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; box-shadow: 0 0 15px currentColor; }
+            50% { opacity: 0.3; box-shadow: none; }
+        }
+
+        input#open {
+            display: none;
+        }
+
+        .christmas-card {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            transform-style: preserve-3d;
+            transform: perspective(2500px);
+            transition: .3s;
+            z-index: 2;
+        }
+
+        .card-front {
+            position: relative;
+            background: linear-gradient(135deg, #fffef5 0%, #fef9e7 100%);
+            width: 350px;
+            height: 350px;
+            transform-origin: left;
+            box-shadow: inset 100px 20px 100px rgba(0,0,0,.15), 30px 0 50px rgba(0,0,0,0.3);
+            transition: .3s;
+            border-radius: 10px;
+            border: 3px solid #d4af37;
+        }
+
+        .card-front:before {
+            content: "";
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            background: linear-gradient(135deg, #c41e3a 0%, #8b1a2e 100%);
+            top: 15px;
+            left: 15px;
+            border-radius: 8px;
+            box-shadow: inset 0 0 30px rgba(0,0,0,0.2);
+        }
+
+        .card-inside {
+            position: absolute;
+            background: linear-gradient(to bottom, #fffef5 0%, #fef9e7 100%);
+            width: 350px;
+            height: 350px;
+            z-index: -1;
+            left: 0;
+            top: 0;
+            box-shadow: inset 100px 20px 100px rgba(0,0,0,0.22), 100px 20px 100px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            border: 3px solid #d4af37;
+        }
+
+        .open {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            left: 0;
+            top: 0;
+            background-color: transparent;
+            z-index: 6;
+            cursor: pointer;
+        }
+
+        #open:checked ~ .card-front {
+            transform: rotateY(-155deg);
+            box-shadow: inset 100px 20px 100px rgba(0,0,0,.13), 30px 0 50px rgba(0,0,0,0.1);
+        }
+
+        #open:checked ~ .card-front:before {
+            z-index: 5;
+            background: linear-gradient(to bottom, #fffef5 0%, #fef9e7 100%);
+            width: 350px;
+            height: 350px;
+            top: 0;
+            left: 0;
+            box-shadow: inset 100px 20px 100px rgba(0,0,0,.1), 30px 0 50px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        .note {
+            position: relative;
+            width: 240px;
+            height: 180px;
+            background: linear-gradient(to bottom, #fffef5 0%, #fef9e7 100%);
+            top: 85px;
+            left: 55px;
+            color: #2c3e50;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            filter: drop-shadow(0 0 20px rgba(0,0,0,0.4));
+            border-radius: 8px;
+            border: 2px solid #d4af37;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .note:before,
+        .note:after {
+            position: absolute;
+            content: "";
+            background-color: #2d5f3f;
+            width: 45px;
+            height: 45px;
+        }
+
+        .note:before {
+            transform: rotate(-45deg);
+            top: -22px;
+            left: 97px;
+        }
+
+        .note:after {
+            border-radius: 50%;
+            top: -38px;
+            left: 80px;
+            box-shadow: 35px 0 #2d5f3f;
+        }
+
+        .christmas-tree {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 80px;
+            animation: glow-tree 2s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes glow-tree {
+            0%, 100% { 
+                filter: drop-shadow(0 0 10px #ffd700);
+                transform: translateX(-50%) scale(1);
+            }
+            50% { 
+                filter: drop-shadow(0 0 20px #ffd700);
+                transform: translateX(-50%) scale(1.05);
+            }
+        }
+
+        .text-one {
+            position: absolute;
+            color: #c41e3a;
+            font-size: 38px;
+            top: 30px;
+            width: 350px;
+            text-align: center;
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .text-one:before,
+        .text-one:after {
+            position: absolute;
+            left: 0;
+            text-align: center;
+            width: 350px;
+        }
+
+        .text-one:before {
+            content: "Navidad!!!";
+            top: 75px;
+            color: #2d5f3f;
+            font-size: 42px;
+        }
+
+        .text-one:after {
+            content: "¡Feliz";
+            top: 40px;
+            color: #c41e3a;
+        }
+
+        .message-container {
+            position: absolute;
+            top: 140px;
+            left: 25px;
+            width: 300px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .special-message {
+            font-family: 'Playfair Display', serif;
+            font-size: 15px;
+            color: #2c3e50;
+            line-height: 1.6;
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 254, 245, 0.9);
+            border-radius: 8px;
+            border: 2px dotted #d4af37;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .special-message strong {
+            color: #c41e3a;
+            font-size: 17px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .special-message em {
+            color: #2d5f3f;
+            font-style: italic;
+        }
+
+        .star {
+            position: relative;
+            background-color: #ffd700;
+            height: 70px;
+            width: 70px;
+            top: 220px;
+            left: 140px;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: rotate-star 4s linear infinite, glow-star 1.5s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        @keyframes rotate-star {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes glow-star {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(255, 215, 0, 1);
+            }
+        }
+
+        .snowman {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            z-index: 1;
+            top: 245px;
+            left: 80px;
+            box-shadow: 0 45px 0 -5px white, 0 80px 0 -12px white;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .snowman:before {
+            content: "⛄";
+            position: absolute;
+            font-size: 45px;
+            top: -8px;
+            left: -3px;
+        }
+
+        .snowman:after {
+            content: "🎅";
+            position: absolute;
+            font-size: 45px;
+            top: -8px;
+            left: 170px;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .decorations {
+            position: absolute;
+            top: 180px;
+            left: 20px;
+            font-size: 30px;
+            z-index: 1;
+        }
+
+        .decorations span {
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .decorations span:nth-child(1) { animation-delay: 0s; }
+        .decorations span:nth-child(2) { animation-delay: 0.5s; margin-left: 250px; }
+        .decorations span:nth-child(3) { animation-delay: 1s; position: absolute; top: -50px; left: 280px; }
+        .decorations span:nth-child(4) { animation-delay: 1.5s; position: absolute; top: -50px; left: 20px; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Luces navideñas -->
+    <div class="lights">
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+        <div class="light"></div>
+    </div>
+
+    <div class="christmas-card">
+        <input id="open" type="checkbox">
+        <label class="open" for="open"></label>
+        
+        <div class="card-front">
+            <div class="christmas-tree">🎄</div>
+            <div class="note">
+                Haz clic para<br>abrir tu regalo<br>navideño ✨
+            </div>
+        </div>
+        
+        <div class="card-inside">
+            <div class="text-one"></div>
+            <div class="message-container">
+                <div class="special-message">
+                    <strong>Querida Yeni 💫</strong>
+                    Esta <em>Navidad</em> llegó con el regalo más bonito:  volver a encontrarnos.
+Que las luces y el calor de estas fiestas nos recuerden que, desde ahora, no estás sola.
+Estaré a tu lado, cuidándote y acompañándote siempre. No me iré, aquí me quedo, contigo. <em>Con todo mi cariño y amor navideño 🎄❤️</em> 
+                </div>
+            </div>
+            <div class="star"></div>
+            <div class="snowman"></div>
+            <div class="decorations">
+                <span>🎁</span>
+                <span>🔔</span>
+                <span>⭐</span>
+                <span>🕯️</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.1/dist/confetti.browser.min.js"></script>
+
+    <script>
+        // Crear copos de nieve
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            const symbols = ['❄', '❅', '❆', '🌟'];
+            snowflake.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+            snowflake.style.left = Math.random() * 100 + '%';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.fontSize = Math.random() * 1 + 0.8 + 'em';
+            snowflake.style.opacity = Math.random() * 0.6 + 0.4;
+            document.body.appendChild(snowflake);
+
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
+
+        setInterval(createSnowflake, 150);
+
+        // Confetti cuando se abre la tarjeta
+        const checkbox = document.getElementById('open');
+        let confettiInterval;
+
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                // Confetti inmediato al abrir
+                confetti({
+                    particleCount: 150,
+                    spread: 80,
+                    origin: { x: 0.5, y: 0.6 },
+                    colors: ['#ffd700', '#c41e3a', '#2d5f3f', '#ffffff']
+                });
+
+                // Confetti continuo mientras está abierta
+                confettiInterval = setInterval(() => {
+                    confetti({
+                        particleCount: 50,
+                        spread: 60,
+                        origin: { x: Math.random(), y: Math.random() * 0.6 },
+                        colors: ['#ffd700', '#c41e3a', '#2d5f3f', '#ffffff']
+                    });
+                }, 2000);
+            } else {
+                // Detener confetti cuando se cierra
+                clearInterval(confettiInterval);
+            }
+        });
+    </script>
+</body>
+</html>
